@@ -1,0 +1,14 @@
+{
+    "name": "CraipaiGames.Variables",
+    "rootNamespace": "CraipaiGames.Variables",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

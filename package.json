@@ -1,0 +1,14 @@
+{
+  "name": "com.yanicksenn.unity.variables",
+  "version": "1.0.0",
+  "displayName": "Unity-Variables",
+  "description": "This package contains the variable concept presented by Ryan Hipple.",
+  "unity": "2020.3",
+  "unityRelease": "14f1",
+  "dependencies": {},
+  "keywords": [ ],
+  "author": {
+    "name": "Yanick Senn",
+    "email": "info@yanicksenn.com"
+  }
+}

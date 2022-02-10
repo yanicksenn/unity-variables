@@ -1,0 +1,16 @@
+{
+    "name": "CraipaiGames.Variables.Editor",
+    "rootNamespace": "CraipaiGames.Variables.Editor",
+    "references": [
+        "GUID:47429ed86eeea47abb38456a7c8ea106"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
