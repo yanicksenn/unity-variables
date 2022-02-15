@@ -2,6 +2,8 @@
 This variables package is based on the idea of Ryan Hipple. 
 I added my own flair to it by adding simple property drawers and extendability for custom and complex variables.
 
+Feedback is welcome.
+
 ## Add package
 1. Open "Package Manager"
 2. Choose "Add package from git URL..."
