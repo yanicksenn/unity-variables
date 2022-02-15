@@ -1,5 +1,6 @@
 # Unity Variables
-This variables package is based on the idea of Ryan Hipple.
+This variables package is based on the idea of Ryan Hipple. 
+I added my own flair to it by adding simple property drawers and extendability for custom and complex variables.
 
 ## Add package
 1. Open "Package Manager"
@@ -101,6 +102,13 @@ public class CharacterReference : AbstractReference<Character, CharacterVariable
 ```
 
 #### Drawer
+Create a drawer class by extending from `AbstractSimpleReferenceDrawer`. This is just boilerplate code.
+```c#
+[CustomPropertyDrawer(typeof(CharacterReference))]
+public class CharacterReferenceDrawer : AbstractSimpleReferenceDrawer { }
+```
+
+#### Example
 Create a drawer class by extending from `AbstractSimpleReferenceDrawer`. This is just boilerplate code.
 ```c#
 [CustomPropertyDrawer(typeof(CharacterReference))]
