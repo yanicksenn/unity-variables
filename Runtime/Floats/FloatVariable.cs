@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CraipaiGames.Variables.Floats
 {
-    [CreateAssetMenu(menuName = "Variables/Create float variable")]
+    [CreateAssetMenu(menuName = Variables.RootMenu + "/Create float variable", fileName = "FloatVariable")]
     public class FloatVariable : AbstractVariable<float>
     {
         

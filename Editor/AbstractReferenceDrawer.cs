@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,128 +12,226 @@ namespace CraipaiGames.Variables.Editor
     public abstract class AbstractReferenceDrawer : PropertyDrawer
     {
         /// <summary>
+        /// Use constant option.
+        /// </summary>
+        private static readonly string PopupOptionUseConstant = "Use Constant";
+        
+        /// <summary>
+        /// Use variable option.
+        /// </summary>
+        private static readonly string PopupOptionUseVariable = "Use Variable";
+        
+        /// <summary>
         /// Options to display in the popup to select constant or variable.
         /// </summary>
-        private readonly string[] popupOptions = 
-            { "Use Constant", "Use Variable" };
+        private static readonly string[] PopupOptions = 
+            { PopupOptionUseConstant, PopupOptionUseVariable };
 
         /// <summary> Cached style to use to draw the popup button. </summary>
-        private GUIStyle popupStyle;
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        private static readonly GUIStyle PopupStyle = new (GUI.skin.GetStyle("PaneOptions"))
         {
-            popupStyle ??= new GUIStyle(GUI.skin.GetStyle("PaneOptions"))
-            {
-                imagePosition = ImagePosition.ImageOnly
-            };
+            imagePosition = ImagePosition.ImageOnly
+        };
+        
+        /// <summary>
+        /// The height of a single line.
+        /// </summary>
+        private static readonly float SingleLineHeight =
+            EditorGUIUtility.singleLineHeight;
 
-            // Get properties
-            var useConstant = GetUseConstantProperty(property);
-            var constant = GetConstantProperty(property);
-            var variable = GetVariableProperty(property);
+        /// <summary>
+        /// The height of a single line including the vertical space.
+        /// </summary>
+        private static readonly float SingleLineHeightWithSpace =
+            SingleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            if (constant.propertyType != SerializedPropertyType.Generic)
-                DrawInlineProperty(position, property, label, useConstant, constant, variable);
-            else
-                DrawGenericProperty(position, property, label, useConstant, constant, variable);
+
+        public override void OnGUI(Rect totalPosition, SerializedProperty property, GUIContent label)
+        {
+            var properties = FindProperties(property);
+            var rootProperty = properties.RootProperty;
+            var useConstantProperty = properties.UseConstantProperty;
+            var constantProperty = properties.ConstantProperty;
+            
+            label = EditorGUI.BeginProperty(totalPosition, label, rootProperty);
+            
+            // Extracting the space left for the popup button.
+            var firstRowPosition = EditorGUI.PrefixLabel(totalPosition, label);
+
+            EditorGUI.BeginChangeCheck();
+            
+            // Set indent to zero for popup button since the prefix label already takes care of this.
+            var indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+            
+            var buttonPosition = CalculatePopupButtonRect(firstRowPosition);
+            firstRowPosition.x += buttonPosition.width;
+            firstRowPosition.width -= buttonPosition.width;
+
+            var useConstant = DrawUseConstantPopup(buttonPosition, useConstantProperty);
+            useConstantProperty.boolValue = useConstant;
+            
+            if (IsGenericProperty(constantProperty))
+                DrawGenericPropertyField(firstRowPosition, properties, useConstant, indent, totalPosition);
+            else 
+                DrawInlinePropertyField(firstRowPosition, properties, useConstant);
+
+            if (EditorGUI.EndChangeCheck())
+                rootProperty.serializedObject.ApplyModifiedProperties();
+
+            EditorGUI.indentLevel = indent;
+            EditorGUI.EndProperty();
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var constant = GetConstantProperty(property);
-            if (IsGenericProperty(constant))
-                return base.GetPropertyHeight(property, label);
+            var properties = FindProperties(property);
+            if (IsGenericProperty(properties.ConstantProperty))
+                return GetGenericPropertyHeight(properties, label);
             
-            var useConstant = GetUseConstantProperty(property);
-            var variable = GetVariableProperty(property);
-            return GetGenericPropertyHeight(property, label, useConstant, constant, variable);
+            return base.GetPropertyHeight(property, label);
         }
-
-        protected abstract SerializedProperty GetUseConstantProperty(SerializedProperty property);
-        protected abstract SerializedProperty GetConstantProperty(SerializedProperty property);
-        protected abstract SerializedProperty GetVariableProperty(SerializedProperty property);
         
+        protected abstract string GetUseConstantPropertyName();
+        protected abstract string GetConstantPropertyName();
+        protected abstract string GetVariablePropertyName();
 
-        private void DrawInlineProperty(Rect position, SerializedProperty property, GUIContent label,
-            SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        
+        private void DrawInlinePropertyField(Rect firstRowPosition, Properties properties, bool useConstant)
         {
-            label = EditorGUI.BeginProperty(position, label, property);
-            position = EditorGUI.PrefixLabel(position, label);
-
-            EditorGUI.BeginChangeCheck();
-
-            // Calculate rect for configuration button
-            var buttonRect = new Rect(position);
-            buttonRect.yMin += popupStyle.margin.top + 1;
-            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
-            position.xMin = buttonRect.xMax;
-            
-            var indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
-
-            var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
-            useConstant.boolValue = result == 0;
-
-            EditorGUI.PropertyField(position,
-                useConstant.boolValue ? constant : variable,
+            EditorGUI.PropertyField(firstRowPosition,
+                useConstant ? properties.ConstantProperty : properties.VariableProperty,
                 GUIContent.none);
-
-            if (EditorGUI.EndChangeCheck())
-                property.serializedObject.ApplyModifiedProperties();
-
-            EditorGUI.indentLevel = indent;
-            EditorGUI.EndProperty();
         }
 
-        private void DrawGenericProperty(Rect position, SerializedProperty property, GUIContent label,
-            SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        private Rect CalculatePopupButtonRect(Rect firstRowPosition)
         {
-            label = EditorGUI.BeginProperty(position, label, property);
-            var firstPosition = EditorGUI.PrefixLabel(position, label);
+            var additionalMarginTop = 1;
+            var additionalMarginRight = 3;
+            var buttonRect = new Rect(firstRowPosition);
+            buttonRect.y += additionalMarginTop;
+            buttonRect.height = PopupStyle.fixedHeight + PopupStyle.margin.top;
+            buttonRect.width = PopupStyle.fixedWidth + PopupStyle.margin.right + additionalMarginRight;
+            return buttonRect;
+        }
 
-            EditorGUI.BeginChangeCheck();
-            
-            // Calculate rect for configuration button
-            var buttonRect = new Rect(firstPosition);
-            buttonRect.y += 2;
-            buttonRect.height = popupStyle.fixedHeight + popupStyle.margin.top;
-            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
-            firstPosition.xMin = buttonRect.xMax;
-            
-            var indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
-
-            var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
-            useConstant.boolValue = result == 0;
-
-            if (useConstant.boolValue) {
+        private void DrawGenericPropertyField(Rect firstRowPosition, Properties properties, bool useConstant, int indent, Rect totalPosition)
+        {
+            if (useConstant)
+            {
+                // Increase indent by one so the constant property has indent and does not seem to be independent of the
+                // label in the first row.
                 EditorGUI.indentLevel = indent + 1;
-                
-                position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(position, constant, true);
+
+                // Draw the constant property field. Include children must be true, otherwise nothing will be drawn.
+                var immediateChildren = GetImmediateChildren(properties.ConstantProperty);
+                foreach (var immediateChild in immediateChildren)
+                {
+                    // Move to new line should be the first action so all children are drawn below the label.
+                    totalPosition.y += SingleLineHeightWithSpace;
+                    
+                    var childRect = new Rect(totalPosition);
+                    childRect.height = SingleLineHeight;
+                    EditorGUI.PropertyField(childRect, immediateChild, true);
+                }
             }
             else
-                EditorGUI.PropertyField(firstPosition, variable, GUIContent.none);
-
-            if (EditorGUI.EndChangeCheck())
-                property.serializedObject.ApplyModifiedProperties();
-
-            EditorGUI.indentLevel = indent;
-            EditorGUI.EndProperty();
+                // Draw the variable property field. It is important that no label is drawn because we already did that
+                // separately with PrefixLabel to ensure the popup button is between label and property field.
+                EditorGUI.PropertyField(firstRowPosition, properties.VariableProperty, GUIContent.none);
         }
 
-        private float GetGenericPropertyHeight(SerializedProperty property, GUIContent label, SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        private float GetGenericPropertyHeight(Properties properties, GUIContent label)
         {
-            var height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            if (!useConstant.boolValue)
-                return height;
-
-            return height + EditorGUI.GetPropertyHeight(constant, label);
+            if (!properties.UseConstantProperty.boolValue)
+                return SingleLineHeightWithSpace;
+            
+            // Generic height can simply be determined by EditorGUI instead of summing
+            // the properties myself.
+            return  EditorGUI.GetPropertyHeight(properties.ConstantProperty, label);
         }
 
-        private static bool IsGenericProperty(SerializedProperty constant)
+        private bool IsGenericProperty(SerializedProperty constant)
         {
-            return constant.propertyType != SerializedPropertyType.Generic;
+            return constant.propertyType == SerializedPropertyType.Generic;
+        }
+        
+        private bool DrawUseConstantPopup(Rect buttonRect, SerializedProperty useConstantProperty)
+        {
+            var selectedPopupIndex = EditorGUI.Popup(buttonRect, useConstantProperty.boolValue ? 0 : 1, PopupOptions,
+                PopupStyle);
+            var useConstantPopupIndex = Array.IndexOf(PopupOptions, PopupOptionUseConstant);
+            return selectedPopupIndex == useConstantPopupIndex;
+        }
+        
+        private Properties FindProperties(SerializedProperty rootProperty)
+        {
+            var useConstantProperty = FindRequiredProperty(rootProperty, GetUseConstantPropertyName());
+            var constantProperty = FindRequiredProperty(rootProperty, GetConstantPropertyName());
+            var variableProperty = FindRequiredProperty(rootProperty, GetVariablePropertyName());
+            
+            return new Properties(rootProperty, useConstantProperty, constantProperty, variableProperty);
+        }
+
+        private SerializedProperty FindRequiredProperty(SerializedProperty rootProperty, string propertyName)
+        {
+            var relativeProperty = rootProperty.FindPropertyRelative(propertyName);
+            _ = relativeProperty ?? throw new ArgumentException($"property '{propertyName}' on '{rootProperty.name}' does not exist");
+            return relativeProperty;
+        }
+
+        private List<SerializedProperty> GetImmediateChildren(SerializedProperty rootProperty)
+        {
+            // Copy root property to prevent changes to the reference during enumation.
+            var enumerator = rootProperty.Copy().GetEnumerator();
+            var children = new List<SerializedProperty>();
+            while (enumerator.MoveNext())
+            {
+                var child = (SerializedProperty) enumerator.Current;
+                if (child != null && IsImmediateChild(rootProperty, child))
+                    children.Add(child.Copy());
+            }
+
+            return children;
+        }
+
+        private static bool IsImmediateChild(SerializedProperty rootProperty, SerializedProperty child)
+        {
+            return rootProperty.depth + 1 == child.depth;
+        }
+
+        /// <summary>
+        /// Struct to group all properties that are required to handle the useContant, constant and the variable properties.
+        /// </summary>
+        private struct Properties
+        {
+            /// <summary>
+            /// Root property holding the useContant, constant and the variable properties
+            /// </summary>
+            public SerializedProperty RootProperty { get; }
+            
+            /// <summary>
+            /// UseConstant property. Used to switch between constant and variable.
+            /// </summary>
+            public SerializedProperty UseConstantProperty { get; }
+            
+            /// <summary>
+            /// Constant property. Holding the constant data.
+            /// </summary>
+            public SerializedProperty ConstantProperty { get; }
+            
+            /// <summary>
+            /// Constant property. Holding the variable reference.
+            /// </summary>
+            public SerializedProperty VariableProperty { get; }
+
+            public Properties(SerializedProperty rootProperty, SerializedProperty useConstantProperty, SerializedProperty constantProperty, SerializedProperty variableProperty)
+            {
+                RootProperty = rootProperty;
+                UseConstantProperty = useConstantProperty;
+                ConstantProperty = constantProperty;
+                VariableProperty = variableProperty;
+            }
         }
     }
 }

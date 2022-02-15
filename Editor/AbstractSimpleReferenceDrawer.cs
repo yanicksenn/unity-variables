@@ -1,22 +1,20 @@
-using UnityEditor;
-
 namespace CraipaiGames.Variables.Editor
 {
     public abstract class AbstractSimpleReferenceDrawer : AbstractReferenceDrawer
     {
-        protected override SerializedProperty GetUseConstantProperty(SerializedProperty property)
+        protected override string GetUseConstantPropertyName()
         {
-            return property.FindPropertyRelative("useConstant");
+            return "useConstant";
         }
 
-        protected override SerializedProperty GetConstantProperty(SerializedProperty property)
+        protected override string GetConstantPropertyName()
         {
-            return property.FindPropertyRelative("constant");
+            return "constant";
         }
 
-        protected override SerializedProperty GetVariableProperty(SerializedProperty property)
+        protected override string GetVariablePropertyName()
         {
-            return property.FindPropertyRelative("variable");
+            return "variable";
         }
     }
 }
