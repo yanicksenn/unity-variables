@@ -25,31 +25,55 @@ namespace CraipaiGames.Variables.Editor
                 imagePosition = ImagePosition.ImageOnly
             };
 
-            label = EditorGUI.BeginProperty(position, label, property);
-            position = EditorGUI.PrefixLabel(position, label);
-            
-            EditorGUI.BeginChangeCheck();
-
             // Get properties
-            var useConstant = GetSwitchProperty(property);
+            var useConstant = GetUseConstantProperty(property);
             var constant = GetConstantProperty(property);
             var variable = GetVariableProperty(property);
+
+            if (constant.propertyType != SerializedPropertyType.Generic)
+                DrawInlineProperty(position, property, label, useConstant, constant, variable);
+            else
+                DrawGenericProperty(position, property, label, useConstant, constant, variable);
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            var constant = GetConstantProperty(property);
+            if (IsGenericProperty(constant))
+                return base.GetPropertyHeight(property, label);
+            
+            var useConstant = GetUseConstantProperty(property);
+            var variable = GetVariableProperty(property);
+            return GetGenericPropertyHeight(property, label, useConstant, constant, variable);
+        }
+
+        protected abstract SerializedProperty GetUseConstantProperty(SerializedProperty property);
+        protected abstract SerializedProperty GetConstantProperty(SerializedProperty property);
+        protected abstract SerializedProperty GetVariableProperty(SerializedProperty property);
+        
+
+        private void DrawInlineProperty(Rect position, SerializedProperty property, GUIContent label,
+            SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        {
+            label = EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, label);
+
+            EditorGUI.BeginChangeCheck();
 
             // Calculate rect for configuration button
             var buttonRect = new Rect(position);
             buttonRect.yMin += popupStyle.margin.top + 1;
             buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
             position.xMin = buttonRect.xMax;
-
-            // Store old indent level and set it to 0, the PrefixLabel takes care of it
+            
             var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
             var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
             useConstant.boolValue = result == 0;
 
-            EditorGUI.PropertyField(position, 
-                useConstant.boolValue ? constant : variable, 
+            EditorGUI.PropertyField(position,
+                useConstant.boolValue ? constant : variable,
                 GUIContent.none);
 
             if (EditorGUI.EndChangeCheck())
@@ -59,8 +83,55 @@ namespace CraipaiGames.Variables.Editor
             EditorGUI.EndProperty();
         }
 
-        protected abstract SerializedProperty GetSwitchProperty(SerializedProperty property);
-        protected abstract SerializedProperty GetConstantProperty(SerializedProperty property);
-        protected abstract SerializedProperty GetVariableProperty(SerializedProperty property);
+        private void DrawGenericProperty(Rect position, SerializedProperty property, GUIContent label,
+            SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        {
+            label = EditorGUI.BeginProperty(position, label, property);
+            var firstPosition = EditorGUI.PrefixLabel(position, label);
+
+            EditorGUI.BeginChangeCheck();
+            
+            // Calculate rect for configuration button
+            var buttonRect = new Rect(firstPosition);
+            buttonRect.y += 2;
+            buttonRect.height = popupStyle.fixedHeight + popupStyle.margin.top;
+            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
+            firstPosition.xMin = buttonRect.xMax;
+            
+            var indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+
+            var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
+            useConstant.boolValue = result == 0;
+
+            if (useConstant.boolValue) {
+                EditorGUI.indentLevel = indent + 1;
+                
+                position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(position, constant, true);
+            }
+            else
+                EditorGUI.PropertyField(firstPosition, variable, GUIContent.none);
+
+            if (EditorGUI.EndChangeCheck())
+                property.serializedObject.ApplyModifiedProperties();
+
+            EditorGUI.indentLevel = indent;
+            EditorGUI.EndProperty();
+        }
+
+        private float GetGenericPropertyHeight(SerializedProperty property, GUIContent label, SerializedProperty useConstant, SerializedProperty constant, SerializedProperty variable)
+        {
+            var height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            if (!useConstant.boolValue)
+                return height;
+
+            return height + EditorGUI.GetPropertyHeight(constant, label);
+        }
+
+        private static bool IsGenericProperty(SerializedProperty constant)
+        {
+            return constant.propertyType != SerializedPropertyType.Generic;
+        }
     }
 }

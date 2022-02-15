@@ -4,7 +4,7 @@ namespace CraipaiGames.Variables.Editor
 {
     public abstract class AbstractSimpleReferenceDrawer : AbstractReferenceDrawer
     {
-        protected override SerializedProperty GetSwitchProperty(SerializedProperty property)
+        protected override SerializedProperty GetUseConstantProperty(SerializedProperty property)
         {
             return property.FindPropertyRelative("useConstant");
         }
