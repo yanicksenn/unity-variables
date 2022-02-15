@@ -118,7 +118,9 @@ public class CharacterReferenceDrawer : AbstractSimpleReferenceDrawer { }
 #### Example in inspector
 
 Editing the variable in the inspector
+
 ![Editing the variable](./Documentation/custom-variable.png)
 
 Editing the constant in the inspector
+
 ![Editing the constant](./Documentation/custom-constant.png)
