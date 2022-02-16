@@ -1,63 +1,86 @@
 # Unity Variables
-This variables package is based on the idea of Ryan Hipple. 
+Unity3d variables allow for quick-wiring data between different game elements through asset files.
+
+This projects is inspired on the [presentation](https://youtu.be/raQ3iHhE_Kk?t=926) by [Ryan Hipple](https://twitter.com/roboryantron).
 I added my own flair to it by adding simple property drawers and extendability for custom and complex variables.
 
 Feedback is welcome.
 
-## Add package
+## Plug and Play
 1. Open "Package Manager"
 2. Choose "Add package from git URL..."
-3. Use the HTTPS URL of this repository
+3. Use the HTTPS URL of this repository:
    `https://github.com/yanicksenn/unity-variables.git`
 4. Click "Add"
 
 ## Usage
+- [References](#user-content-references)
+- [Variables](#user-content-variables)
+- [Customization](#user-content-customization)
 
-### Variable references in script
-There is a variety of prepared variable references that you can individually reference in your scripts.
+### References
+This package provides you references and the variables.
+References are used in the scripts the allow access to a constant or variable.
 
-- `FloatReference`
-- `IntReference`
-- `BoolReference`
-- `StringReference`
-- `Vector2Reference`
-- `Vector3Reference`
-- `QuaternionReference`
+These are the build-in references and the corresponding variables:
 
-The underlying value can be accessed through getter and setter.
+| Reference             | Variable             |
+|-----------------------|----------------------|
+| `FloatReference`      | `FloatVariable`      |
+| `IntReference`        | `IntVariable`        |
+| `BoolReference`       | `BoolVariable`       |
+| `StringReference`     | `StringVariable`     |
+| `Vector2Reference`    | `Vector2Variable`    |
+| `Vector3Reference`    | `Vector3Variable`    |
+| `QuaternionReference` | `QuaternionVariable` |
+
+Nobody hinders you from directly using variables inside of your scripts.
+Please keep in mind then the interchangeability of constant and variable is not possible.
+
+You can use them inside of your scripts. You don't need to call the constructor but if you do you can provide a default value for your constant.
 
 ```c#
-using CraipaiGames.Variables.Bools;
-using CraipaiGames.Variables.Floats;
-using UnityEngine;
-
 public class MyBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private FloatReference myFloat;
-    
-    [SerializeField]
-    private BoolReference myBoolWithDefaultValue = new BoolReference(true);
-
-    void Update()
-    {
-        if (myBoolWithDefaultValue.Value)
-        {
-            Debug.Log(myFloat.Value);
-        }
-    }
+    public FloatReference myFloat;
+    // public FloatReference myFloat = new FloatReference(7.2f);
 }
 ```
-There is a specific property drawer for each of those variable references. Each of those drawers provides input fields for the constant and the variable value and it is possible to choose freely which of those inputs should currently be accessible.
 
-![Using variable references](./Documentation/using-variable-references.gif)
+The button ![Button](./Documentation/button.png) is drawn in front you your reference.
 
-### Variables in editor
-For each variable reference it is possible to create a variable (`ScriptableObject`) that can be assigned through the asset menu.
+![Reference with constant](./Documentation/example-behaviour-constant.png)
 
-![Create and assign variables](./Documentation/create-assign-variables.gif)
+If you click on it, a popup with be displayed providing you with the options of using the variable or a the constant.
 
-### Create custom variable
+![Reference with constant](./Documentation/example-behaviour-popup.png)
+
+After choosing the variable the property will immediately be updated to allow referencing a variable. Vice versa if you choose to use the constant.
+
+![Reference with constant](./Documentation/example-behaviour-variable.png)
+
+You can read and write to your references through the `myFloat.Value` property.
+
+Adding the `Start` method to the behaviour ... 
+```c#
+void Start() {
+   myFloat.Value = 99.876f;
+   Debug.Log(myFloat.Value);
+}
+```
+
+... will result in the following console output.
+
+![Console](./Documentation/console.png)
+
+### Variables
+Variables can be created through the asset menu > Create > Variables > ... .
+
+![Asset menu](./Documentation/asset-menu.png)
+
+### Customization
+It is possible to create you own reference and variable by extending from `AbstractReference` and `AbstractVariable`.
+Mostly you will just have to create boilerplate code.
 
 #### Data
 Start by defining a data class. It is important that this `class` or `struct` is annotated with `Serializable`.
@@ -84,7 +107,7 @@ Start by defining a data class. It is important that this `class` or `struct` is
  }
 ```
 
-#### Variable
+#### Variable (Boilerplate)
 Create a variable class by extending from `AbstractVariable` (inherits from `ScriptableObject`). This is just boilerplate code.
 ```c#
 [CreateAssetMenu(
@@ -93,7 +116,7 @@ Create a variable class by extending from `AbstractVariable` (inherits from `Scr
  public class CharacterVariable : AbstractVariable<Character> { }
 ```
 
-#### Reference
+#### Reference (Boilerplate)
 Create a reference class by extending from `AbstractReference`. This is just boilerplate code. It is possible to provide a default constant value inside of the constructor.
 ```c#
 [Serializable]
@@ -103,7 +126,7 @@ public class CharacterReference : AbstractReference<Character, CharacterVariable
 }
 ```
 
-#### Drawer
+#### Drawer (Boilerplate)
 Create a drawer class by extending from `AbstractSimpleReferenceDrawer`. This is just boilerplate code.
 ```c#
 [CustomPropertyDrawer(typeof(CharacterReference))]
@@ -111,18 +134,19 @@ public class CharacterReferenceDrawer : AbstractSimpleReferenceDrawer { }
 ```
 
 #### Example
-Create a drawer class by extending from `AbstractSimpleReferenceDrawer`. This is just boilerplate code.
+Use the new `CharacterReference` inside of your `MonoBehvaiour` or `ScriptableObject`.
 ```c#
-[CustomPropertyDrawer(typeof(CharacterReference))]
-public class CharacterReferenceDrawer : AbstractSimpleReferenceDrawer { }
+public class CharacterBehaviour : MonoBehaviour {
+    public CharacterReference character;
+}
 ```
 
 #### Example in inspector
 
-Editing the variable in the inspector
-
-![Editing the variable](./Documentation/custom-variable.png)
-
-Editing the constant in the inspector
+Using the `CharacterBehaviour` on a `GameObject` would then show the following editor in the inspector, allowing you to edit the underlying constant.
 
 ![Editing the constant](./Documentation/custom-constant.png)
+
+Or if you want to reference a variable.
+
+![Editing the variable](./Documentation/custom-variable.png)
