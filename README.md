@@ -19,8 +19,8 @@ Feedback is welcome.
 - [Customization](#user-content-customization)
 
 ### References
-This package provides you references and the variables.
-References are used in the scripts the allow access to a constant or variable.
+This package provides you references and variables.
+References are used in the scripts to allow access to a constant or variable.
 
 These are the build-in references and the corresponding variables:
 
