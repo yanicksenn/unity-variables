@@ -1,8 +1,8 @@
-using CraipaiGames.Variables.Quaternions;
+using Variables.Quaternions;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Tests.Quaternions
+namespace Variables.Tests.Quaternions
 {
     [UsedImplicitly]
     public class QuaternionVariableTest : AbstractVariableTest<Quaternion>

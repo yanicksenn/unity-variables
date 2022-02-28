@@ -1,7 +1,7 @@
-using CraipaiGames.Variables.Ints;
+using Variables.Ints;
 using UnityEditor;
 
-namespace CraipaiGames.Variables.Editor.Ints
+namespace Variables.Editor.Ints
 {
     [CustomPropertyDrawer(typeof(IntReference))]
     public class IntReferenceDrawer : AbstractSimpleReferenceDrawer

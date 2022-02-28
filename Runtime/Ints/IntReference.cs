@@ -1,6 +1,6 @@
 using System;
 
-namespace CraipaiGames.Variables.Ints
+namespace Variables.Ints
 {
     [Serializable]
     public class IntReference : AbstractReference<int, IntVariable>

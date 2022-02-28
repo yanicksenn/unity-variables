@@ -1,6 +1,6 @@
 using System;
 
-namespace CraipaiGames.Variables.Floats
+namespace Variables.Floats
 {
     [Serializable]
     public class FloatReference : AbstractReference<float, FloatVariable>

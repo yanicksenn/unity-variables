@@ -1,7 +1,7 @@
-using CraipaiGames.Variables.Bools;
+using Variables.Bools;
 using UnityEditor;
 
-namespace CraipaiGames.Variables.Editor.Bools
+namespace Variables.Editor.Bools
 {
     [CustomPropertyDrawer(typeof(BoolReference))]
     public class BoolReferenceDrawer : AbstractSimpleReferenceDrawer

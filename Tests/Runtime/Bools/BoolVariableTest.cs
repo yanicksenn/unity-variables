@@ -1,8 +1,8 @@
-using CraipaiGames.Variables.Bools;
+using Variables.Bools;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Tests.Bools
+namespace Variables.Tests.Bools
 {
     [UsedImplicitly]
     public class BoolVariableTest : AbstractVariableTest<bool>

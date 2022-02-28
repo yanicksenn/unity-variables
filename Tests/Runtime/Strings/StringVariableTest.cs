@@ -1,8 +1,8 @@
-using CraipaiGames.Variables.Strings;
+using Variables.Strings;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Tests.Strings
+namespace Variables.Tests.Strings
 {
     [UsedImplicitly]
     public class StringVariableTest : AbstractVariableTest<string>

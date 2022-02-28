@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Editor
+namespace Variables.Editor
 {
     /**
      * Copy pasted & adapted from:

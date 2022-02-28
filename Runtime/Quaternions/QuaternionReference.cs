@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Quaternions
+namespace Variables.Quaternions
 {
     [Serializable]
     public class QuaternionReference : AbstractReference<Quaternion, QuaternionVariable>

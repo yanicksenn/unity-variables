@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CraipaiGames.Variables
+namespace Variables
 {
     public abstract class AbstractVariable<T> : ScriptableObject, IVariable<T>
     {

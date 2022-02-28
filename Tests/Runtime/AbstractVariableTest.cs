@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace CraipaiGames.Variables.Tests
+namespace Variables.Tests
 {
     public abstract class AbstractVariableTest<T>
     {

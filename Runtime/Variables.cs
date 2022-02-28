@@ -1,4 +1,4 @@
-namespace CraipaiGames.Variables
+namespace Variables
 {
     /// <summary>
     /// Util class holding constants.

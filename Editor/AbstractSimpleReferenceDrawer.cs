@@ -1,4 +1,4 @@
-namespace CraipaiGames.Variables.Editor
+namespace Variables.Editor
 {
     public abstract class AbstractSimpleReferenceDrawer : AbstractReferenceDrawer
     {

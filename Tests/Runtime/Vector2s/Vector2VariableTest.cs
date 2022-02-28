@@ -1,8 +1,8 @@
-using CraipaiGames.Variables.Vector2s;
+using Variables.Vector2s;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Tests.Vector2s
+namespace Variables.Tests.Vector2s
 {
     [UsedImplicitly]
     public class Vector2VariableTest : AbstractVariableTest<Vector2>

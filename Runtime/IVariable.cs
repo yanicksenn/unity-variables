@@ -1,4 +1,4 @@
-namespace CraipaiGames.Variables
+namespace Variables
 {
     public interface IVariable<T>
     {

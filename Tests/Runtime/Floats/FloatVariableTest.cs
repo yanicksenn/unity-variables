@@ -1,8 +1,8 @@
-using CraipaiGames.Variables.Floats;
+using Variables.Floats;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Tests.Floats
+namespace Variables.Tests.Floats
 {
     [UsedImplicitly]
     public class FloatVariableTest : AbstractVariableTest<float>

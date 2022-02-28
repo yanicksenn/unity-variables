@@ -1,6 +1,6 @@
 using System;
 
-namespace CraipaiGames.Variables.Bools
+namespace Variables.Bools
 {
     [Serializable]
     public class BoolReference : AbstractReference<bool, BoolVariable>

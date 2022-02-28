@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CraipaiGames.Variables.Vector2s
+namespace Variables.Vector2s
 {
     [Serializable]
     public class Vector2Reference : AbstractReference<Vector2, Vector2Variable>

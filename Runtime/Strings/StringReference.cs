@@ -1,6 +1,6 @@
 using System;
 
-namespace CraipaiGames.Variables.Strings
+namespace Variables.Strings
 {
     [Serializable]
     public class StringReference : AbstractReference<string, StringVariable>

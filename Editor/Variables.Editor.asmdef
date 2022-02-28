@@ -1,7 +1,9 @@
 {
-    "name": "CraipaiGames.Variables",
-    "rootNamespace": "CraipaiGames.Variables",
-    "references": [],
+    "name": "Variables.Editor",
+    "rootNamespace": "Variables.Editor",
+    "references": [
+        "Variables"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

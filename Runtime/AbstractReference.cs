@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CraipaiGames.Variables
+namespace Variables
 {
     [Serializable]
     public abstract class AbstractReference<TConstant, TVariable> where TVariable : AbstractVariable<TConstant>, IVariable<TConstant>
