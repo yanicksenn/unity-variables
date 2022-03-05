@@ -1,7 +1,7 @@
 # Unity Variables
-Unity3d variables allow for quick-wiring data between different game elements through asset files.
+Unity3d variables allowing the sharing of data between different game elements through ScriptableObjects.
 
-This projects is inspired on the [presentation](https://youtu.be/raQ3iHhE_Kk?t=926) by [Ryan Hipple](https://twitter.com/roboryantron).
+This project is inspired on the [presentation](https://youtu.be/raQ3iHhE_Kk?t=926) by [Ryan Hipple](https://twitter.com/roboryantron).
 I added my own flair to it by adding simple property drawers and extendability for custom and complex variables.
 
 Feedback is welcome.
