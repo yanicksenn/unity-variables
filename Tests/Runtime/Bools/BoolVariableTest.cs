@@ -5,8 +5,8 @@ namespace Variables.Tests.Bools
 {
     public class BoolVariableTest : AbstractVariableTest<bool>
     {
-        protected override AbstractVariable<bool> CreateVariable() => ScriptableObject.CreateInstance<BoolVariable>();
+        protected override IVariable<bool> CreateVariable() => ScriptableObject.CreateInstance<BoolVariable>();
 
-        protected override bool GetValue() => true;
+        protected override bool CreateRandomValue() => Random.Range(0, 1) == 0;
     }
 }

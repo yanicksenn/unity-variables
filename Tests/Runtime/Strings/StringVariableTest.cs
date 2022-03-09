@@ -7,8 +7,8 @@ namespace Variables.Tests.Strings
     [UsedImplicitly]
     public class StringVariableTest : AbstractVariableTest<string>
     {
-        protected override AbstractVariable<string> CreateVariable() => ScriptableObject.CreateInstance<StringVariable>();
+        protected override IVariable<string> CreateVariable() => ScriptableObject.CreateInstance<StringVariable>();
 
-        protected override string GetValue() => "Test";
+        protected override string CreateRandomValue() => "Not so random string";
     }
 }

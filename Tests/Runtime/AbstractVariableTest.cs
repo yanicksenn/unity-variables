@@ -1,31 +1,21 @@
-using System.Collections;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Variables.Tests
 {
     public abstract class AbstractVariableTest<T>
     {
-        protected abstract AbstractVariable<T> CreateVariable();
-        protected abstract T GetValue();
+        protected abstract IVariable<T> CreateVariable();
+        protected abstract T CreateRandomValue();
         
         [Test]
-        public void AssertTypeActsLikeVariable()
+        public void AssertSetterGetterOfConstant()
         {
             var variable = CreateVariable();
-            var value = GetValue();
+            var expectedValue = CreateRandomValue();
+            variable.SetValue(expectedValue);
             
-            variable.Value = value;
-            Assert.AreEqual(value, variable.Value);
-        }
-        
-        [TearDown]
-        public void TearDown()
-        {
-            var gameObjects = Object.FindObjectsOfType<GameObject>();
-            foreach (var gameObject in gameObjects)
-                Object.Destroy(gameObject);
+            var actualValue = variable.GetValue();
+            Assert.AreEqual(expectedValue, actualValue);
         }
     }
 }

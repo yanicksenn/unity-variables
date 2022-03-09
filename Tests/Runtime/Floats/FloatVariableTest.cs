@@ -7,8 +7,8 @@ namespace Variables.Tests.Floats
     [UsedImplicitly]
     public class FloatVariableTest : AbstractVariableTest<float>
     {
-        protected override AbstractVariable<float> CreateVariable() => ScriptableObject.CreateInstance<FloatVariable>();
+        protected override IVariable<float> CreateVariable() => ScriptableObject.CreateInstance<FloatVariable>();
 
-        protected override float GetValue() => 5;
+        protected override float CreateRandomValue() => Random.Range(-1000f, 1000f);
     }
 }
