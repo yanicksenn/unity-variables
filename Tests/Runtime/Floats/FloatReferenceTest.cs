@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Variables.Tests.Bools
 {
-    public class FloatReferenceTest : AbstractNumberReferenceTest<float, FloatVariable, FloatReference>
+    public class FloatReferenceTest : AbstractNumberReferenceTest<float, FloatValueContainer, FloatReference>
     {
         protected override float Inv(float value) => -value;
         protected override float Inc(float value) => value + 1;
@@ -19,9 +19,9 @@ namespace Variables.Tests.Bools
             return new FloatReference();
         }
 
-        protected override FloatVariable CreateVariable()
+        protected override FloatValueContainer CreateVariable()
         {
-            return ScriptableObject.CreateInstance<FloatVariable>();
+            return ScriptableObject.CreateInstance<FloatValueContainer>();
         }
 
         protected override float CreateRandomValue()

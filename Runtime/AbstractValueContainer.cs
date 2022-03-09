@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Variables
 {
-    public abstract class AbstractVariable<TV> : ScriptableObject, IVariable<TV>
+    public abstract class AbstractValueContainer<TV> : ScriptableObject, IValueContainer<TV>
     {
         [SerializeField] 
         private TV value;

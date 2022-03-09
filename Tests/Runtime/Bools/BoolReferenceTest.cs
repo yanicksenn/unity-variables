@@ -4,7 +4,7 @@ using Variables.Bools;
 
 namespace Variables.Tests.Bools
 {
-    public class BoolReferenceTest : AbstractReferenceTest<bool, BoolVariable, BoolReference>
+    public class BoolReferenceTest : AbstractReferenceTest<bool, BoolValueContainer, BoolReference>
     {
         [Test]
         public void AssertInvOfConstant()
@@ -74,9 +74,9 @@ namespace Variables.Tests.Bools
             return new BoolReference();
         }
 
-        protected override BoolVariable CreateVariable()
+        protected override BoolValueContainer CreateVariable()
         {
-            return ScriptableObject.CreateInstance<BoolVariable>();
+            return ScriptableObject.CreateInstance<BoolValueContainer>();
         }
 
         protected override bool CreateRandomValue()

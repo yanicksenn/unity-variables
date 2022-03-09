@@ -5,7 +5,7 @@ namespace Variables.unity_variables.Runtime
     /// <summary>
     /// Definition of an math operations.
     /// </summary>
-    public interface IMathOperations<T> : IInvertible, IVariable<T>
+    public interface IMathOperations<T> : IInvertible, IValueContainer<T>
     {
         /// <summary>
         /// Increments the current value.

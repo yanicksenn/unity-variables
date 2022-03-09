@@ -7,7 +7,7 @@ namespace Variables.Tests.Ints
     [UsedImplicitly]
     public class IntVariableTest : AbstractVariableTest<int>
     {
-        protected override IVariable<int> CreateVariable() => ScriptableObject.CreateInstance<IntVariable>();
+        protected override IValueContainer<int> CreateVariable() => ScriptableObject.CreateInstance<IntValueContainer>();
 
         protected override int CreateRandomValue() => Random.Range(-1000, 1000);
     }

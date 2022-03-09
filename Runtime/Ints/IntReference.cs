@@ -4,7 +4,7 @@ using Variables.unity_variables.Runtime;
 namespace Variables.Ints
 {
     [Serializable]
-    public class IntReference : AbstractReference<int, IntVariable>, IMathOperations<int>
+    public class IntReference : AbstractReference<int, IntValueContainer>, IMathOperations<int>
     {
         public IntReference(int defaultConstantValue = 0) : base(defaultConstantValue)
         {

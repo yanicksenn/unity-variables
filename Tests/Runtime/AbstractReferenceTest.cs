@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Variables.Tests
 {
-    public abstract class AbstractReferenceTest<T, TV, TR> where TV : AbstractVariable<T> where TR : AbstractReference<T, TV>
+    public abstract class AbstractReferenceTest<T, TV, TR> where TV : AbstractValueContainer<T> where TR : AbstractReference<T, TV>
     {
         protected TR _reference;
         protected TV _variable;

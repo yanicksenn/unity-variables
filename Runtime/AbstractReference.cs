@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Variables
 {
     [Serializable]
-    public abstract class AbstractReference<TConstant, TVariable> where TVariable : AbstractVariable<TConstant>, IVariable<TConstant>
+    public abstract class AbstractReference<TConstant, TVariable> where TVariable : AbstractValueContainer<TConstant>, IValueContainer<TConstant>
     {
         [SerializeField]
         private bool useConstant = true;

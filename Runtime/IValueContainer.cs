@@ -1,6 +1,6 @@
 namespace Variables
 {
-    public interface IVariable<T>
+    public interface IValueContainer<T>
     {
         void SetValue(T value);
         T GetValue();

@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Variables.Tests.Bools
 {
-    public class IntReferenceTest : AbstractNumberReferenceTest<int, IntVariable, IntReference>
+    public class IntReferenceTest : AbstractNumberReferenceTest<int, IntValueContainer, IntReference>
     {
         protected override int Inv(int value) => -value;
         protected override int Inc(int value) => value + 1;
@@ -20,9 +20,9 @@ namespace Variables.Tests.Bools
             return new IntReference();
         }
 
-        protected override IntVariable CreateVariable()
+        protected override IntValueContainer CreateVariable()
         {
-            return ScriptableObject.CreateInstance<IntVariable>();
+            return ScriptableObject.CreateInstance<IntValueContainer>();
         }
 
         protected override int CreateRandomValue()

@@ -7,7 +7,7 @@ namespace Variables.Bools
     /// Bool variable wrapped in a ScriptableObject.
     /// </summary>
     [CreateAssetMenu(menuName = VariableConstants.RootMenu + "/Create bool variable", fileName = "BoolVariable")]
-    public class BoolVariable : AbstractVariable<bool>, IBoolOperations
+    public class BoolValueContainer : AbstractValueContainer<bool>, IBoolOperations
     {
         [SerializeField, Space]
         private BoolEvent onChangeEvent = new BoolEvent();

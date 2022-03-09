@@ -4,7 +4,7 @@ namespace Variables.Tests
 {
     public abstract class AbstractVariableTest<T>
     {
-        protected abstract IVariable<T> CreateVariable();
+        protected abstract IValueContainer<T> CreateVariable();
         protected abstract T CreateRandomValue();
         
         [Test]

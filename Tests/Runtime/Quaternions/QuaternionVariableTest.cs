@@ -7,7 +7,7 @@ namespace Variables.Tests.Quaternions
     [UsedImplicitly]
     public class QuaternionVariableTest : AbstractVariableTest<Quaternion>
     {
-        protected override IVariable<Quaternion> CreateVariable() => ScriptableObject.CreateInstance<QuaternionVariable>();
+        protected override IValueContainer<Quaternion> CreateVariable() => ScriptableObject.CreateInstance<QuaternionValueContainer>();
 
         protected override Quaternion CreateRandomValue() => Random.rotation;
     }

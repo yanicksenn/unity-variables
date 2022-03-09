@@ -5,7 +5,7 @@ using Variables.unity_variables.Runtime;
 namespace Variables.Tests
 {
     public abstract class AbstractNumberReferenceTest<T, TV, TR> : AbstractReferenceTest<T, TV, TR> 
-        where TV : AbstractVariable<T>, IMathOperations<T>
+        where TV : AbstractValueContainer<T>, IMathOperations<T>
         where TR : AbstractReference<T, TV>, IMathOperations<T>
     {
         [Test]

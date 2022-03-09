@@ -4,7 +4,7 @@ using Variables.unity_variables.Runtime;
 namespace Variables.Ints
 {
     [CreateAssetMenu(menuName = VariableConstants.RootMenu + "/Create int variable", fileName = "IntVariable")]
-    public class IntVariable : AbstractVariable<int>, IMathOperations<int>
+    public class IntValueContainer : AbstractValueContainer<int>, IMathOperations<int>
     {
         public void Inv() => SetValue(-GetValue());
         public void Inc() => SetValue(GetValue() + 1);

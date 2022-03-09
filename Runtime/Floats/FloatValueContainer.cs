@@ -4,7 +4,7 @@ using Variables.unity_variables.Runtime;
 namespace Variables.Floats
 {
     [CreateAssetMenu(menuName = VariableConstants.RootMenu + "/Create float variable", fileName = "FloatVariable")]
-    public class FloatVariable : AbstractVariable<float>, IMathOperations<float>
+    public class FloatValueContainer : AbstractValueContainer<float>, IMathOperations<float>
     {
         [SerializeField, Space]
         private FloatEvent onChangeEvent = new FloatEvent();
