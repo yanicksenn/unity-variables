@@ -10,15 +10,14 @@ namespace Variables.Tests
         protected abstract AbstractVariable<T> CreateVariable();
         protected abstract T GetValue();
         
-        [UnityTest]
-        public IEnumerator AssertTypeActsLikeVariable()
+        [Test]
+        public void AssertTypeActsLikeVariable()
         {
             var variable = CreateVariable();
             var value = GetValue();
             
             variable.Value = value;
             Assert.AreEqual(value, variable.Value);
-            yield return null;
         }
         
         [TearDown]
