@@ -33,7 +33,7 @@ namespace Variables.Tests
             _reference.SetValue(expectedValue);
             var actualValue = _reference.GetValue();
             Assert.AreEqual(expectedValue, actualValue);
-            Assert.AreEqual(expectedValue, _variable.Value);
+            Assert.AreEqual(expectedValue, _variable.GetValue());
         }
 
         protected abstract TR CreateReference();

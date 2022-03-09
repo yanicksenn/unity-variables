@@ -30,12 +30,6 @@ namespace Variables
             set => variable = value;
         }
 
-        public TConstant Value
-        {
-            get => GetValue();
-            set => SetValue(value);
-        }
-
         protected AbstractReference(TConstant defaultConstantValue)
         {
             constant = defaultConstantValue;
@@ -47,7 +41,7 @@ namespace Variables
                 return Constant;
 
             if (Variable != null)
-                return Variable.Value;
+                return Variable.GetValue();
             
             return default;
         }
@@ -58,7 +52,7 @@ namespace Variables
                 Constant = value;
             
             else if (Variable != null)
-                Variable.Value = value;
+                Variable.SetValue(value);
         }
     }
 }

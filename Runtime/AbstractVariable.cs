@@ -2,15 +2,10 @@ using UnityEngine;
 
 namespace Variables
 {
-    public abstract class AbstractVariable<V> : ScriptableObject, IVariable<V>
+    public abstract class AbstractVariable<TV> : ScriptableObject, IVariable<TV>
     {
         [SerializeField] 
-        private V value;
-        public V Value
-        {
-            get => GetValue();
-            set => SetValue(value);
-        }
+        private TV value;
 
         [SerializeField, TextArea] 
         private string description;
@@ -20,12 +15,12 @@ namespace Variables
             set => description = value;
         }
 
-        public V GetValue()
+        public TV GetValue()
         {
             return value;
         }
 
-        public void SetValue(V newValue)
+        public void SetValue(TV newValue)
         {
             if (Equals(newValue, value)) 
                 return;
@@ -35,6 +30,6 @@ namespace Variables
             OnChange(oldValue, newValue);
         }
         
-        protected virtual void OnChange(V oldValue, V newValue) {}
+        protected virtual void OnChange(TV oldValue, TV newValue) {}
     }
 }
