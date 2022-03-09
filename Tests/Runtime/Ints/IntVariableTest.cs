@@ -5,10 +5,9 @@ using UnityEngine;
 namespace Variables.Tests.Ints
 {
     [UsedImplicitly]
-    public class IntValueContainerTest : AbstractValueContainerTest<int>
+    public class IntVariableTest : AbstractValueContainerTest<int, IntVariable>
     {
-        protected override IValueContainer<int> CreateVariable() => ScriptableObject.CreateInstance<IntValueContainer>();
-
+        protected override IntVariable CreateValueContainer() => ScriptableObject.CreateInstance<IntVariable>();
         protected override int CreateRandomValue() => Random.Range(-1000, 1000);
     }
 }

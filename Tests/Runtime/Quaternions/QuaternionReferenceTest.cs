@@ -3,21 +3,9 @@ using Variables.Quaternions;
 
 namespace Variables.Tests.Quaternions
 {
-    public class QuaternionReferenceTest : AbstractReferenceTest<Quaternion, QuaternionValueContainer, QuaternionReference>
+    public class QuaternionReferenceTest : AbstractValueContainerTest<Quaternion, QuaternionReference>
     {
-        protected override QuaternionReference CreateReference()
-        {
-            return new QuaternionReference();
-        }
-
-        protected override QuaternionValueContainer CreateVariable()
-        {
-            return ScriptableObject.CreateInstance<QuaternionValueContainer>();
-        }
-
-        protected override Quaternion CreateRandomValue()
-        {
-            return Random.rotation;
-        }
+        protected override QuaternionReference CreateValueContainer() => new QuaternionReference();
+        protected override Quaternion CreateRandomValue() => Random.rotation;
     }
 }

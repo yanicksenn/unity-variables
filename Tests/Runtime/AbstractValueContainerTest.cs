@@ -2,20 +2,27 @@ using NUnit.Framework;
 
 namespace Variables.Tests
 {
-    public abstract class AbstractValueContainerTest<T>
+    public abstract class AbstractValueContainerTest<T, TV> where TV : IValueContainer<T>
     {
-        protected abstract IValueContainer<T> CreateVariable();
-        protected abstract T CreateRandomValue();
+        protected TV _valueContainer;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _valueContainer = CreateValueContainer();
+        }
         
         [Test]
-        public void AssertSetterGetterOfConstant()
+        public void AssertSetterGetter()
         {
-            var variable = CreateVariable();
             var expectedValue = CreateRandomValue();
-            variable.SetValue(expectedValue);
+            _valueContainer.SetValue(expectedValue);
             
-            var actualValue = variable.GetValue();
+            var actualValue = _valueContainer.GetValue();
             Assert.AreEqual(expectedValue, actualValue);
         }
+        
+        protected abstract TV CreateValueContainer();
+        protected abstract T CreateRandomValue();
     }
 }

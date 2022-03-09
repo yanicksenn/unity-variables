@@ -1,11 +1,9 @@
 using UnityEngine;
-using Variables.Floats;
 using Variables.Ints;
-using Random = UnityEngine.Random;
 
 namespace Variables.Tests.Bools
 {
-    public class IntReferenceTest : AbstractNumberReferenceTest<int, IntValueContainer, IntReference>
+    public class IntReferenceTest : AbstractNumberReferenceTest<int, IntReference>
     {
         protected override int Inv(int value) => -value;
         protected override int Inc(int value) => value + 1;
@@ -15,14 +13,9 @@ namespace Variables.Tests.Bools
         protected override int Mul(int value1, int value2) => value1 * value2;
         protected override int Div(int value1, int value2) => value1 / value2;
         
-        protected override IntReference CreateReference()
+        protected override IntReference CreateValueContainer()
         {
             return new IntReference();
-        }
-
-        protected override IntValueContainer CreateVariable()
-        {
-            return ScriptableObject.CreateInstance<IntValueContainer>();
         }
 
         protected override int CreateRandomValue()

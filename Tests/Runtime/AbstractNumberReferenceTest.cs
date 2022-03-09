@@ -4,92 +4,91 @@ using Variables.unity_variables.Runtime;
 
 namespace Variables.Tests
 {
-    public abstract class AbstractNumberReferenceTest<T, TV, TR> : AbstractReferenceTest<T, TV, TR> 
-        where TV : AbstractValueContainer<T>, IMathOperations<T>
-        where TR : AbstractReference<T, TV>, IMathOperations<T>
+    public abstract class AbstractNumberReferenceTest<T, TV> : AbstractValueContainerTest<T, TV> 
+        where TV : IMathOperations<T>
     {
         [Test]
         public void AssertInvOfConstant()
         {
-            AssertInv(true);
+            AssertInv();
         }
         
         [Test]
         public void AssertInvOfVariable()
         {
-            AssertInv(false);
+            AssertInv();
         }
 
         [Test]
         public void AssertIncOfConstant()
         {
-            AssertInc(true);
+            AssertInc();
         }
         
         [Test]
         public void AssertIncOfVariable()
         {
-            AssertInc(false);
+            AssertInc();
         }
         
         [Test]
         public void AssertDecOfConstant()
         {
-            AssertDec(true);
+            AssertDec();
         }
         
         [Test]
         public void AssertDecOfVariable()
         {
-            AssertDec(false);
+            AssertDec();
         }
         
         [Test]
         public void AssertAddOfConstant()
         {
-            AssertAdd(true);
+            AssertAdd();
         }
         
         [Test]
         public void AssertAddOfVariable()
         {
-            AssertAdd(false);
+            AssertAdd();
         }
         
         [Test]
         public void AssertSubOfConstant()
         {
-            AssertSub(true);
+            AssertSub();
         }
         
         [Test]
         public void AssertSubOfVariable()
         {
-            AssertSub(false);
+            AssertSub();
         }
         
         [Test]
         public void AssertMulOfConstant()
         {
-            AssertMul(true);
+            AssertMul();
         }
         
         [Test]
         public void AssertMulOfVariable()
         {
-            AssertMul(false);
+            AssertMul();
         }
         
         [Test]
         public void AssertDivOfConstant()
         {
-            AssertDiv(true);
+            AssertDiv();
         }
         
         [Test]
         public void AssertDivOfVariable()
         {
-            AssertDiv(false);
+            AssertDiv();
         }
 
         protected abstract T Inv(T value);
@@ -100,55 +99,51 @@ namespace Variables.Tests
         protected abstract T Mul(T value1, T value2);
         protected abstract T Div(T value1, T value2);
 
-        private void AssertInv(bool useConstant)
+        private void AssertInv()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Inv(), (f1, f2) => Inv(f1));
+            AssertOperation((reference, f) => reference.Inv(), (f1, f2) => Inv(f1));
         }
 
-        private void AssertInc(bool useConstant)
+        private void AssertInc()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Inc(), (f1, f2) => Inc(f1));
+            AssertOperation((reference, f) => reference.Inc(), (f1, f2) => Inc(f1));
         }
 
-        private void AssertDec(bool useConstant)
+        private void AssertDec()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Dec(), (f1, f2) => Dec(f1));
+            AssertOperation((reference, f) => reference.Dec(), (f1, f2) => Dec(f1));
         }
 
-        private void AssertAdd(bool useConstant)
+        private void AssertAdd()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Add(f), Add);
+            AssertOperation((reference, f) => reference.Add(f), Add);
         }
 
-        private void AssertSub(bool useConstant)
+        private void AssertSub()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Sub(f), Sub);
+            AssertOperation((reference, f) => reference.Sub(f), Sub);
         }
 
-        private void AssertMul(bool useConstant)
+        private void AssertMul()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Mul(f), Mul);
+            AssertOperation((reference, f) => reference.Mul(f), Mul);
         }
 
-        private void AssertDiv(bool useConstant)
+        private void AssertDiv()
         {
-            AssertOperation(useConstant, (reference, f) => reference.Div(f), Div);
+            AssertOperation((reference, f) => reference.Div(f), Div);
         }
         
-        private void AssertOperation(bool useConstant, Action<TR, T> action, Func<T, T, T> expectation)
+        private void AssertOperation(Action<TV, T> action, Func<T, T, T> expectation)
         {
             var initialValue = CreateRandomValue();
-            _reference.UseConstant = useConstant;
-            _reference.SetValue(initialValue);
+            _valueContainer.SetValue(initialValue);
             
             var randomValue = CreateRandomValue();
-            action.Invoke(_reference, randomValue);
+            action.Invoke(_valueContainer, randomValue);
 
             var expectedValue = expectation.Invoke(initialValue, randomValue);
-            Assert.AreEqual(expectedValue, _reference.GetValue());
-            
-            if (!useConstant)
-                Assert.AreEqual(expectedValue, _variable.GetValue());
+            Assert.AreEqual(expectedValue, _valueContainer.GetValue());
         }
     }
 }

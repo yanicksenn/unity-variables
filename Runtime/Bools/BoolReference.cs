@@ -7,7 +7,7 @@ namespace Variables.Bools
     /// Bool reference allowing to switch between constant and variable.
     /// </summary>
     [Serializable]
-    public class BoolReference : AbstractReference<bool, BoolValueContainer>, IBoolOperations
+    public class BoolReference : AbstractReference<bool, BoolVariable>, IBoolOperations
     {
         public BoolReference(bool defaultConstantValue = false) : base(defaultConstantValue)
         {
