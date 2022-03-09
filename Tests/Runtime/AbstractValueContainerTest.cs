@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Variables.Tests
 {
-    public abstract class AbstractVariableTest<T>
+    public abstract class AbstractValueContainerTest<T>
     {
         protected abstract IValueContainer<T> CreateVariable();
         protected abstract T CreateRandomValue();

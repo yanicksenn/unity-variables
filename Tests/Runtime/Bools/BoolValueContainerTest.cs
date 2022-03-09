@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Variables.Tests.Bools
 {
-    public class BoolVariableTest : AbstractVariableTest<bool>
+    public class BoolValueContainerTest : AbstractValueContainerTest<bool>
     {
         protected override IValueContainer<bool> CreateVariable() => ScriptableObject.CreateInstance<BoolValueContainer>();
 

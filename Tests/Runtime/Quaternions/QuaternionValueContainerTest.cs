@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Variables.Tests.Quaternions
 {
     [UsedImplicitly]
-    public class QuaternionVariableTest : AbstractVariableTest<Quaternion>
+    public class QuaternionValueContainerTest : AbstractValueContainerTest<Quaternion>
     {
         protected override IValueContainer<Quaternion> CreateVariable() => ScriptableObject.CreateInstance<QuaternionValueContainer>();
 

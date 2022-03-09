@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Variables.Tests.Vector2s
 {
     [UsedImplicitly]
-    public class Vector2VariableTest : AbstractVariableTest<Vector2>
+    public class Vector2ValueContainerTest : AbstractValueContainerTest<Vector2>
     {
         protected override IValueContainer<Vector2> CreateVariable() => ScriptableObject.CreateInstance<Vector2ValueContainer>();
 

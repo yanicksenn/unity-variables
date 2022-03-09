@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Variables.Tests.Floats
 {
     [UsedImplicitly]
-    public class FloatVariableTest : AbstractVariableTest<float>
+    public class FloatValueContainerTest : AbstractValueContainerTest<float>
     {
         protected override IValueContainer<float> CreateVariable() => ScriptableObject.CreateInstance<FloatValueContainer>();
 

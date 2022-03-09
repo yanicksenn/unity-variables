@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Variables.Tests.Strings
 {
     [UsedImplicitly]
-    public class StringVariableTest : AbstractVariableTest<string>
+    public class StringValueContainerTest : AbstractValueContainerTest<string>
     {
         protected override IValueContainer<string> CreateVariable() => ScriptableObject.CreateInstance<StringValueContainer>();
 

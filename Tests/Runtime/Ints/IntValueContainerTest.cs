@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Variables.Tests.Ints
 {
     [UsedImplicitly]
-    public class IntVariableTest : AbstractVariableTest<int>
+    public class IntValueContainerTest : AbstractValueContainerTest<int>
     {
         protected override IValueContainer<int> CreateVariable() => ScriptableObject.CreateInstance<IntValueContainer>();
 
