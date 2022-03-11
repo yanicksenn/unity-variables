@@ -1,5 +1,5 @@
 using System;
-using Variables.unity_variables.Runtime;
+using Variables.Runtime;
 
 namespace Variables.Floats
 {
@@ -7,7 +7,7 @@ namespace Variables.Floats
     /// Float reference allowing to switch between constant and variable.
     /// </summary>
     [Serializable]
-    public class FloatReference : AbstractReference<float, FloatVariable>, IMathOperations<float>
+    public class FloatReference : AbstractReference<float, FloatVariable, FloatEvent>, INumberContainer<float>
     {
         public FloatReference(float defaultConstantValue = 0.0f) : base(defaultConstantValue)
         {

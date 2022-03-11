@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Variables.Tests
@@ -12,17 +14,16 @@ namespace Variables.Tests
             _valueContainer = CreateValueContainer();
         }
         
-        [Test]
-        public void AssertSetterGetter()
-        {
-            var expectedValue = CreateRandomValue();
-            _valueContainer.SetValue(expectedValue);
-            
-            var actualValue = _valueContainer.GetValue();
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-        
         protected abstract TV CreateValueContainer();
         protected abstract T CreateRandomValue();
+
+        protected T CreateRandomValueExcept(params T[] values)
+        {
+            var value = CreateRandomValue();
+            while (values.Contains(value))
+                value = CreateRandomValue();
+
+            return value;
+        }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using Variables.unity_variables.Runtime;
 
 namespace Variables.Bools
 {
@@ -7,14 +6,12 @@ namespace Variables.Bools
     /// Bool reference allowing to switch between constant and variable.
     /// </summary>
     [Serializable]
-    public class BoolReference : AbstractReference<bool, BoolVariable>, IBoolOperations
+    public class BoolReference : AbstractReference<bool, BoolVariable, BoolEvent>, IInvertible
     {
         public BoolReference(bool defaultConstantValue = false) : base(defaultConstantValue)
         {
         }
         
         public void Inv() => SetValue(!GetValue());
-        public void True() => SetValue(true);
-        public void False() => SetValue(false);
     }
 }

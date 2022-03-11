@@ -1,11 +1,13 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Variables.Tests
 {
-    public abstract class AbstractReferenceTest<T, TR, TV> : AbstractValueContainerTest<T, TR>
-        where TV : AbstractVariable<T>
-        where TR : AbstractReference<T, TV>
+    public abstract class AbstractReferenceTest<T, TR, TV, TE> : AbstractSetterGetterTest<T, TR>
+        where TV : AbstractVariable<T, TE>
+        where TR : AbstractReference<T, TV, TE>
+        where TE : UnityEvent<T>
     {
         [Test]
         public void AssertSetterGetterOfVariable()

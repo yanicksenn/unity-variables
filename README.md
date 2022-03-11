@@ -24,15 +24,17 @@ References are used in the scripts to allow access to a constant or variable.
 
 These are the build-in references and the corresponding variables:
 
-| Reference             | Variable             |
-|-----------------------|----------------------|
-| `FloatReference`      | `FloatVariable`      |
-| `IntReference`        | `IntVariable`        |
-| `BoolReference`       | `BoolVariable`       |
-| `StringReference`     | `StringVariable`     |
-| `Vector2Reference`    | `Vector2Variable`    |
-| `Vector3Reference`    | `Vector3Variable`    |
-| `QuaternionReference` | `QuaternionVariable` |
+| Reference             | Variable               |
+|-----------------------|------------------------|
+| `FloatReference`      | `FloatVariable`        |
+| `"`                   | `ClampedFloatVariable` |
+| `IntReference`        | `IntVariable`          |
+| `"`                   | `ClampedIntVariable`   |
+| `BoolReference`       | `BoolVariable`         |
+| `StringReference`     | `StringVariable`       |
+| `Vector2Reference`    | `Vector2Variable`      |
+| `Vector3Reference`    | `Vector3Variable`      |
+| `QuaternionReference` | `QuaternionVariable`   |
 
 Nobody hinders you from directly using variables inside of your scripts.
 Please keep in mind then the interchangeability of constant and variable is not possible.
@@ -107,20 +109,27 @@ Start by defining a data class. It is important that this `class` or `struct` is
  }
 ```
 
+#### Event (Boilerplate)
+Create an event with the type of the data class as payload. This is just boilerplate code.
+```c#
+[Serializable]
+public class CharacterEvent : UnityEvent<Character> { }
+```
+
 #### Variable (Boilerplate)
 Create a variable class by extending from `AbstractVariable` (inherits from `ScriptableObject`). This is just boilerplate code.
 ```c#
 [CreateAssetMenu(
-     menuName = Variables.RootMenu + "/Create Character variable ...",
+     menuName = Variables.RootMenu + "/Create Character variable",
      fileName = "Character")]
- public class CharacterVariable : AbstractVariable<Character> { }
+public class CharacterVariable : AbstractVariable<Character, CharacterEvent> { }
 ```
 
 #### Reference (Boilerplate)
 Create a reference class by extending from `AbstractReference`. This is just boilerplate code. It is possible to provide a default constant value inside of the constructor.
 ```c#
 [Serializable]
-public class CharacterReference : AbstractReference<Character, CharacterVariable>
+public class CharacterReference : AbstractReference<Character, CharacterVariable, CharacterEvent>
 {
     public CharacterReference(Character defaultConstantValue) : base(defaultConstantValue) { }
 }

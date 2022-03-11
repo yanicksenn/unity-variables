@@ -1,14 +1,16 @@
 using System;
-using Variables.unity_variables.Runtime;
+using Variables.Floats;
+using Variables.Runtime;
 
 namespace Variables.Ints
 {
     [Serializable]
-    public class IntReference : AbstractReference<int, IntVariable>, IMathOperations<int>
+    public class IntReference : AbstractReference<int, IntVariable, IntEvent>, INumberContainer<int>
     {
         public IntReference(int defaultConstantValue = 0) : base(defaultConstantValue)
         {
         }
+        
         public void Inv() => SetValue(-GetValue());
         public void Inc() => SetValue(GetValue() + 1);
         public void Dec() => SetValue(GetValue() - 1);

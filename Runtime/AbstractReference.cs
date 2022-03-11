@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Variables
 {
     [Serializable]
-    public abstract class AbstractReference<TConstant, TVariable> : IValueContainer<TConstant>
-        where TVariable : AbstractVariable<TConstant>, IValueContainer<TConstant>
+    public abstract class AbstractReference<TC, TV, TE> : IValueContainer<TC>
+        where TV : AbstractVariable<TC, TE>, IValueContainer<TC>
+        where TE : UnityEvent<TC>
     {
         [SerializeField]
         private bool useConstant = true;
@@ -16,27 +18,27 @@ namespace Variables
         }
         
         [SerializeField]
-        private TConstant constant;
-        public TConstant Constant
+        private TC constant;
+        public TC Constant
         {
             get => constant;
             set => constant = value;
         }
 
         [SerializeField]
-        private TVariable variable;
-        public TVariable Variable
+        private TV variable;
+        public TV Variable
         {
             get => variable;
             set => variable = value;
         }
 
-        protected AbstractReference(TConstant defaultConstantValue)
+        protected AbstractReference(TC defaultConstantValue)
         {
             constant = defaultConstantValue;
         }
 
-        public TConstant GetValue()
+        public TC GetValue()
         {
             if (UseConstant)
                 return Constant;
@@ -47,7 +49,7 @@ namespace Variables
             return default;
         }
 
-        public void SetValue(TConstant value)
+        public void SetValue(TC value)
         {
             if (UseConstant)
                 Constant = value;

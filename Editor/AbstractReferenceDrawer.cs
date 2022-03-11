@@ -99,9 +99,10 @@ namespace Variables.Editor
         
         private void DrawInlinePropertyField(Rect firstRowPosition, Properties properties, bool useConstant)
         {
-            EditorGUI.PropertyField(firstRowPosition,
-                useConstant ? properties.ConstantProperty : properties.VariableProperty,
-                GUIContent.none);
+            if (useConstant)
+                EditorGUI.PropertyField(firstRowPosition, properties.ConstantProperty, GUIContent.none);
+            else
+                DrawVariableFieldWithPreview(firstRowPosition, properties);
         }
 
         private Rect CalculatePopupButtonRect(Rect firstRowPosition)
@@ -136,9 +137,33 @@ namespace Variables.Editor
                 }
             }
             else
-                // Draw the variable property field. It is important that no label is drawn because we already did that
-                // separately with PrefixLabel to ensure the popup button is between label and property field.
-                EditorGUI.PropertyField(firstRowPosition, properties.VariableProperty, GUIContent.none);
+            {
+                DrawVariableFieldWithPreview(firstRowPosition, properties);
+            }
+        }
+        
+
+        private static void DrawVariableFieldWithPreview(Rect firstRowPosition, Properties properties)
+        {
+            var space = 3;
+            var variableWidth = (firstRowPosition.width - space) * (2f / 3f);
+            var variablePropertyRect = new Rect(firstRowPosition);
+            variablePropertyRect.width = variableWidth;
+            
+            // Draw the variable property field. It is important that no label is drawn because we already did that
+            // separately with PrefixLabel to ensure the popup button is between label and property field.
+            EditorGUI.PropertyField(variablePropertyRect, properties.VariableProperty, GUIContent.none);
+
+            var previewWidth = (firstRowPosition.width - space) * (1f / 3f);
+            var previewPropertyRect = new Rect(variablePropertyRect);
+            previewPropertyRect.width = previewWidth;
+            previewPropertyRect.x += space + variablePropertyRect.width;
+
+            var targetObject = properties.VariableProperty.objectReferenceValue;
+            var wasEnabled = GUI.enabled;
+            GUI.enabled = false;
+            EditorGUI.TextField(previewPropertyRect, targetObject != null ? targetObject.ToString() : "-");
+            GUI.enabled = wasEnabled;
         }
 
         private float GetGenericPropertyHeight(Properties properties, GUIContent label)

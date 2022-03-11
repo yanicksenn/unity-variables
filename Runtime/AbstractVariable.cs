@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Variables
 {
-    public abstract class AbstractVariable<TV> : ScriptableObject, IValueContainer<TV>
+    public abstract class AbstractVariable<TV, TE> : ScriptableObject, IValueContainer<TV>
+        where TE : UnityEvent<TV>
     {
         [SerializeField] 
         private TV value;
@@ -15,21 +17,33 @@ namespace Variables
             set => description = value;
         }
 
-        public TV GetValue()
-        {
-            return value;
-        }
+        public abstract TE OnChangeEvent { get; }
+
+        public TV GetValue() => value;
 
         public void SetValue(TV newValue)
         {
-            if (Equals(newValue, value)) 
+            var newInterpolatedValue = Interpolate(newValue);
+            if (Equals(newInterpolatedValue, value)) 
                 return;
-            
-            var oldValue = value;
-            value = newValue;
-            OnChange(oldValue, newValue);
+
+            value = newInterpolatedValue;
+            InvokeChangeEvent();
         }
+
+        [ContextMenu("Invoke change event")]
+        public void InvokeChangeEvent() => OnChangeEvent.Invoke(GetValue());
+
+        public override string ToString()
+        {
+            return GetValue().ToString();
+        }
+
+        protected virtual TV Interpolate(TV newValue) => newValue;
+
         
-        protected virtual void OnChange(TV oldValue, TV newValue) {}
+#if UNITY_EDITOR
+        private void OnValidate() => SetValue(value);
+#endif
     }
 }
