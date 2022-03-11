@@ -59,7 +59,7 @@ If you click on it, a popup with be displayed providing you with the options of 
 
 After choosing the variable the property will immediately be updated to allow referencing a variable. Vice versa if you choose to use the constant.
 
-![Reference with constant](./Documentation/example-behaviour-variable.png)
+![Reference with variable empty](./Documentation/example-behaviour-variable-empty.png)
 
 You can read and write to your references through the `myFloat.Value` property.
 
@@ -79,6 +79,10 @@ void Start() {
 Variables can be created through the asset menu > Create > Variables > ... .
 
 ![Asset menu](./Documentation/asset-menu.png)
+
+After assigning the created variable to the behaviour you should see a preview with value of the variable.
+
+![Asset menu](./Documentation/example-behaviour-variable-filled.png)
 
 ### Customization
 It is possible to create you own reference and variable by extending from `AbstractReference` and `AbstractVariable`.
