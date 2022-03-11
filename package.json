@@ -1,6 +1,6 @@
 {
   "name": "com.yanicksenn.unity.variables",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "Unity-Variables",
   "description": "This package contains the variable concept presented by Ryan Hipple.",
   "unity": "2020.3",
