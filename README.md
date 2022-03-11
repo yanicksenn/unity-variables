@@ -10,7 +10,7 @@ Feedback is welcome.
 1. Open "Package Manager"
 2. Choose "Add package from git URL..."
 3. Use the HTTPS URL of this repository:
-   `https://github.com/yanicksenn/unity-variables.git#1.0.0`
+   `https://github.com/yanicksenn/unity-variables.git#1.1.0`
 4. Click "Add"
 
 ## Usage
