@@ -10,7 +10,7 @@ Feedback is welcome.
 1. Open "Package Manager"
 2. Choose "Add package from git URL..."
 3. Use the HTTPS URL of this repository:
-   `https://github.com/yanicksenn/unity-variables.git`
+   `https://github.com/yanicksenn/unity-variables.git#1.0.0`
 4. Click "Add"
 
 ## Usage
@@ -57,7 +57,7 @@ If you click on it, a popup with be displayed providing you with the options of 
 
 After choosing the variable the property will immediately be updated to allow referencing a variable. Vice versa if you choose to use the constant.
 
-![Reference with constant](./Documentation/example-behaviour-variable.png#1.0.0)
+![Reference with constant](./Documentation/example-behaviour-variable.png)
 
 You can read and write to your references through the `myFloat.Value` property.
 
