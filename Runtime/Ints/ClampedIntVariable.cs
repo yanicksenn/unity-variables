@@ -4,6 +4,9 @@ using Variables.Ints;
 
 namespace Variables.Floats
 {
+    /// <summary>
+    /// Clamped int variable wrapped in a ScriptableObject.
+    /// </summary>
     [CreateAssetMenu(
         menuName = VariableConstants.IntMenu + "/Create clamped int variable", 
         fileName = "ClampedIntVariable",

@@ -5,10 +5,9 @@ using UnityEngine;
 
 namespace Variables.Editor
 {
-    /**
-     * Copy pasted & adapted from:
-     * https://github.com/roboryantron/Unite2017/blob/master/Assets/Code/Variables/Editor/FloatReferenceDrawer.cs
-     */
+    /// <summary>
+    /// Abstract property drawer for references.
+    /// </summary>
     public abstract class AbstractReferenceDrawer : PropertyDrawer
     {
         /// <summary>
@@ -92,8 +91,22 @@ namespace Variables.Editor
             return base.GetPropertyHeight(property, label);
         }
         
+        /// <summary>
+        /// Returns the property name of the use-constant switch. 
+        /// </summary>
+        /// <returns>Property name</returns>
         protected abstract string GetUseConstantPropertyName();
+        
+        /// <summary>
+        /// Returns the property name of the constant property. 
+        /// </summary>
+        /// <returns>Property name</returns>
         protected abstract string GetConstantPropertyName();
+        
+        /// <summary>
+        /// Returns the property name of the variable property. 
+        /// </summary>
+        /// <returns>Property name</returns>
         protected abstract string GetVariablePropertyName();
 
         

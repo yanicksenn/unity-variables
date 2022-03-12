@@ -3,14 +3,23 @@ using UnityEngine.Events;
 
 namespace Variables
 {
-    public abstract class AbstractVariable<TV, TE> : ScriptableObject, IValueContainer<TV>
-        where TE : UnityEvent<TV>
+    /// <summary>
+    /// Abstract variable holding a value.
+    /// </summary>
+    /// <typeparam name="T">Type of the value</typeparam>
+    /// <typeparam name="TE">Type of the event</typeparam>
+    public abstract class AbstractVariable<T, TE> : ScriptableObject, IValueContainer<T>
+        where TE : UnityEvent<T>
     {
         [SerializeField] 
-        private TV value;
+        private T value;
 
         [SerializeField, TextArea] 
         private string description;
+        
+        /// <summary>
+        /// Description.
+        /// </summary>
         public string Description
         {
             get => description;
@@ -19,9 +28,17 @@ namespace Variables
 
         public abstract TE OnChangeEvent { get; }
 
-        public TV GetValue() => value;
+        /// <summary>
+        /// Returns the current value.
+        /// </summary>
+        /// <returns>Current value</returns>
+        public T GetValue() => value;
 
-        public void SetValue(TV newValue)
+        /// <summary>
+        /// Sets the current value.
+        /// </summary>
+        /// <param name="newValue">New value</param>
+        public void SetValue(T newValue)
         {
             var newInterpolatedValue = Interpolate(newValue);
             if (Equals(newInterpolatedValue, value)) 
@@ -31,15 +48,23 @@ namespace Variables
             InvokeChangeEvent();
         }
 
+        /// <summary>
+        /// Invokes the OnChangeEvent with the current payload.
+        /// </summary>
         [ContextMenu("Invoke change event")]
         public void InvokeChangeEvent() => OnChangeEvent.Invoke(GetValue());
-
+        
         public override string ToString()
         {
             return GetValue().ToString();
         }
 
-        protected virtual TV Interpolate(TV newValue) => newValue;
+        /// <summary>
+        /// Interpolates the new value before assigning and firing the OnChangeEvent.
+        /// </summary>
+        /// <param name="newValue">New value</param>
+        /// <returns>New interpolated value</returns>
+        protected virtual T Interpolate(T newValue) => newValue;
 
         
 #if UNITY_EDITOR

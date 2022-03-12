@@ -3,6 +3,9 @@ using Variables.Runtime;
 
 namespace Variables.Floats
 {
+    /// <summary>
+    /// Float variable wrapped in a ScriptableObject.
+    /// </summary>
     [CreateAssetMenu(
         menuName = VariableConstants.FloatMenu + "/Create float variable", 
         fileName = "FloatVariable",

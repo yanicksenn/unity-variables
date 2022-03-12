@@ -4,6 +4,9 @@ using Variables.Floats;
 
 namespace Variables.Quaternions
 {
+    /// <summary>
+    /// Quaternion reference allowing to switch between constant and variable.
+    /// </summary>
     [Serializable]
     public class QuaternionReference : AbstractReference<Quaternion, QuaternionVariable, QuaternionEvent>
     {

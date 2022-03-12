@@ -3,7 +3,12 @@ using Variables.Floats;
 
 namespace Variables.Strings
 {
-    [CreateAssetMenu(menuName = VariableConstants.RootMenu + "/Create string variable", fileName = "StringVariable")]
+    /// <summary>
+    /// String variable wrapped in a ScriptableObject.
+    /// </summary>
+    [CreateAssetMenu(
+        menuName = VariableConstants.RootMenu + "/Create string variable", 
+        fileName = "StringVariable")]
     public class StringVariable : AbstractVariable<string, StringEvent>
     {
         [SerializeField, Space]

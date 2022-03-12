@@ -4,6 +4,9 @@ using Variables.Runtime;
 
 namespace Variables.Ints
 {
+    /// <summary>
+    /// Int variable wrapped in a ScriptableObject.
+    /// </summary>
     [CreateAssetMenu(
         menuName = VariableConstants.IntMenu + "/Create int variable", 
         fileName = "IntVariable",

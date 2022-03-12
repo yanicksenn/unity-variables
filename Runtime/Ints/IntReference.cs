@@ -4,6 +4,9 @@ using Variables.Runtime;
 
 namespace Variables.Ints
 {
+    /// <summary>
+    /// Int reference allowing to switch between constant and variable.
+    /// </summary>
     [Serializable]
     public class IntReference : AbstractReference<int, IntVariable, IntEvent>, INumberContainer<int>
     {

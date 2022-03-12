@@ -3,7 +3,12 @@ using Variables.Floats;
 
 namespace Variables.Vector3s
 {
-    [CreateAssetMenu(menuName = VariableConstants.RootMenu + "/Create Vector3 variable", fileName = "Vector3Variable")]
+    /// <summary>
+    /// Vector3 variable wrapped in a ScriptableObject.
+    /// </summary>
+    [CreateAssetMenu(
+        menuName = VariableConstants.RootMenu + "/Create Vector3 variable", 
+        fileName = "Vector3Variable")]
     public class Vector3Variable : AbstractVariable<Vector3, Vector3Event>
     {
         [SerializeField, Space]
