@@ -57,7 +57,7 @@ If you click on it, a popup with be displayed providing you with the options of 
 
 After choosing the variable the property will immediately be updated to allow referencing a variable. Vice versa if you choose to use the constant.
 
-![Reference with constant](./Documentation/example-behaviour-variable.png)
+![Reference with constant](./Documentation/example-behaviour-variable.png#1.0.0)
 
 You can read and write to your references through the `myFloat.Value` property.
 
