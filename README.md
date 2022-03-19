@@ -1,5 +1,5 @@
 # Unity Variables
-Unity3d variables allowing the sharing of data between different game elements through ScriptableObjects.
+Unity3d package allowing the distribution of data between different GameObjects through ScriptableObjects.
 
 This project is inspired on the [presentation](https://youtu.be/raQ3iHhE_Kk?t=926) by [Ryan Hipple](https://twitter.com/roboryantron).
 I added my own flair to it by adding simple property drawers and extendability for custom and complex variables.
