@@ -14,24 +14,21 @@ namespace Variables.Editor
         /// Use constant option.
         /// </summary>
         private static readonly string PopupOptionUseConstant = "Use Constant";
-        
+
         /// <summary>
         /// Use variable option.
         /// </summary>
         private static readonly string PopupOptionUseVariable = "Use Variable";
-        
+
         /// <summary>
         /// Options to display in the popup to select constant or variable.
         /// </summary>
-        private static readonly string[] PopupOptions = 
+        private static readonly string[] PopupOptions =
             { PopupOptionUseConstant, PopupOptionUseVariable };
 
         /// <summary> Cached style to use to draw the popup button. </summary>
-        private static readonly GUIStyle PopupStyle = new (GUI.skin.GetStyle("PaneOptions"))
-        {
-            imagePosition = ImagePosition.ImageOnly
-        };
-        
+        private static GUIStyle PopupStyle;
+
         /// <summary>
         /// The height of a single line.
         /// </summary>
@@ -51,28 +48,28 @@ namespace Variables.Editor
             var rootProperty = properties.RootProperty;
             var useConstantProperty = properties.UseConstantProperty;
             var constantProperty = properties.ConstantProperty;
-            
+
             label = EditorGUI.BeginProperty(totalPosition, label, rootProperty);
-            
+
             // Extracting the space left for the popup button.
             var firstRowPosition = EditorGUI.PrefixLabel(totalPosition, label);
 
             EditorGUI.BeginChangeCheck();
-            
+
             // Set indent to zero for popup button since the prefix label already takes care of this.
             var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-            
+
             var buttonPosition = CalculatePopupButtonRect(firstRowPosition);
             firstRowPosition.x += buttonPosition.width;
             firstRowPosition.width -= buttonPosition.width;
 
             var useConstant = DrawUseConstantPopup(buttonPosition, useConstantProperty);
             useConstantProperty.boolValue = useConstant;
-            
+
             if (IsGenericProperty(constantProperty))
                 DrawGenericPropertyField(firstRowPosition, properties, useConstant, indent, totalPosition);
-            else 
+            else
                 DrawInlinePropertyField(firstRowPosition, properties, useConstant);
 
             if (EditorGUI.EndChangeCheck())
@@ -86,30 +83,31 @@ namespace Variables.Editor
         {
             var properties = FindProperties(property);
             if (IsGenericProperty(properties.ConstantProperty))
+            {
                 return GetGenericPropertyHeight(properties, label);
-            
+            }
+
             return base.GetPropertyHeight(property, label);
         }
-        
+
         /// <summary>
         /// Returns the property name of the use-constant switch. 
         /// </summary>
         /// <returns>Property name</returns>
         protected abstract string GetUseConstantPropertyName();
-        
+
         /// <summary>
         /// Returns the property name of the constant property. 
         /// </summary>
         /// <returns>Property name</returns>
         protected abstract string GetConstantPropertyName();
-        
+
         /// <summary>
         /// Returns the property name of the variable property. 
         /// </summary>
         /// <returns>Property name</returns>
         protected abstract string GetVariablePropertyName();
 
-        
         private void DrawInlinePropertyField(Rect firstRowPosition, Properties properties, bool useConstant)
         {
             if (useConstant)
@@ -124,8 +122,9 @@ namespace Variables.Editor
             var additionalMarginRight = 3;
             var buttonRect = new Rect(firstRowPosition);
             buttonRect.y += additionalMarginTop;
-            buttonRect.height = PopupStyle.fixedHeight + PopupStyle.margin.top;
-            buttonRect.width = PopupStyle.fixedWidth + PopupStyle.margin.right + additionalMarginRight;
+            GUIStyle popupStyle = GetPopupStyle();
+            buttonRect.height = popupStyle.fixedHeight + popupStyle.margin.top;
+            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right + additionalMarginRight;
             return buttonRect;
         }
 
@@ -143,7 +142,7 @@ namespace Variables.Editor
                 {
                     // Move to new line should be the first action so all children are drawn below the label.
                     totalPosition.y += SingleLineHeightWithSpace;
-                    
+
                     var childRect = new Rect(totalPosition);
                     childRect.height = SingleLineHeight;
                     EditorGUI.PropertyField(childRect, immediateChild, true);
@@ -154,7 +153,6 @@ namespace Variables.Editor
                 DrawVariableFieldWithPreview(firstRowPosition, properties);
             }
         }
-        
 
         private static void DrawVariableFieldWithPreview(Rect firstRowPosition, Properties properties)
         {
@@ -162,7 +160,7 @@ namespace Variables.Editor
             var variableWidth = (firstRowPosition.width - space) * (2f / 3f);
             var variablePropertyRect = new Rect(firstRowPosition);
             variablePropertyRect.width = variableWidth;
-            
+
             // Draw the variable property field. It is important that no label is drawn because we already did that
             // separately with PrefixLabel to ensure the popup button is between label and property field.
             EditorGUI.PropertyField(variablePropertyRect, properties.VariableProperty, GUIContent.none);
@@ -181,33 +179,35 @@ namespace Variables.Editor
 
         private float GetGenericPropertyHeight(Properties properties, GUIContent label)
         {
-            if (!properties.UseConstantProperty.boolValue)
-                return SingleLineHeightWithSpace;
-            
-            // Generic height can simply be determined by EditorGUI instead of summing
-            // the properties myself.
-            return  EditorGUI.GetPropertyHeight(properties.ConstantProperty, label);
+            if (properties.UseConstantProperty.boolValue)
+            {
+                // Generic height can simply be determined by EditorGUI instead of summing
+                // the properties myself.
+                return EditorGUI.GetPropertyHeight(properties.ConstantProperty, label);
+            }
+            return SingleLineHeightWithSpace;
         }
 
         private bool IsGenericProperty(SerializedProperty constant)
         {
             return constant.propertyType == SerializedPropertyType.Generic;
         }
-        
+
         private bool DrawUseConstantPopup(Rect buttonRect, SerializedProperty useConstantProperty)
         {
+            GUIStyle popupStyle = GetPopupStyle();
             var selectedPopupIndex = EditorGUI.Popup(buttonRect, useConstantProperty.boolValue ? 0 : 1, PopupOptions,
-                PopupStyle);
+                popupStyle);
             var useConstantPopupIndex = Array.IndexOf(PopupOptions, PopupOptionUseConstant);
             return selectedPopupIndex == useConstantPopupIndex;
         }
-        
+
         private Properties FindProperties(SerializedProperty rootProperty)
         {
             var useConstantProperty = FindRequiredProperty(rootProperty, GetUseConstantPropertyName());
             var constantProperty = FindRequiredProperty(rootProperty, GetConstantPropertyName());
             var variableProperty = FindRequiredProperty(rootProperty, GetVariablePropertyName());
-            
+
             return new Properties(rootProperty, useConstantProperty, constantProperty, variableProperty);
         }
 
@@ -225,7 +225,7 @@ namespace Variables.Editor
             var children = new List<SerializedProperty>();
             while (enumerator.MoveNext())
             {
-                var child = (SerializedProperty) enumerator.Current;
+                var child = (SerializedProperty)enumerator.Current;
                 if (child != null && IsImmediateChild(rootProperty, child))
                     children.Add(child.Copy());
             }
@@ -247,17 +247,17 @@ namespace Variables.Editor
             /// Root property holding the useContant, constant and the variable properties
             /// </summary>
             public SerializedProperty RootProperty { get; }
-            
+
             /// <summary>
             /// UseConstant property. Used to switch between constant and variable.
             /// </summary>
             public SerializedProperty UseConstantProperty { get; }
-            
+
             /// <summary>
             /// Constant property. Holding the constant data.
             /// </summary>
             public SerializedProperty ConstantProperty { get; }
-            
+
             /// <summary>
             /// Constant property. Holding the variable reference.
             /// </summary>
@@ -270,6 +270,14 @@ namespace Variables.Editor
                 ConstantProperty = constantProperty;
                 VariableProperty = variableProperty;
             }
+        }
+
+        private static GUIStyle GetPopupStyle()
+        {
+            return PopupStyle ??= new(GUI.skin.GetStyle("PaneOptions"))
+            {
+                imagePosition = ImagePosition.ImageOnly
+            };
         }
     }
 }
